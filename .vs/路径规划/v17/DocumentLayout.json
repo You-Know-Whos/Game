@@ -3,16 +3,24 @@
   "WorkspaceRootPath": "D:\\Unity Hub\\Projects\\\u8DEF\u5F84\u89C4\u5212\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{636B74F2-E29D-8C40-1D35-FBF71811FAA4}|Assembly-CSharp.csproj|D:\\Unity Hub\\Projects\\\u8DEF\u5F84\u89C4\u5212\\assets\\scripts\\node.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{636B74F2-E29D-8C40-1D35-FBF71811FAA4}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\node.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{636B74F2-E29D-8C40-1D35-FBF71811FAA4}|Assembly-CSharp.csproj|D:\\Unity Hub\\Projects\\\u8DEF\u5F84\u89C4\u5212\\assets\\scripts\\astar.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{636B74F2-E29D-8C40-1D35-FBF71811FAA4}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\astar.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{636B74F2-E29D-8C40-1D35-FBF71811FAA4}|Assembly-CSharp.csproj|D:\\Unity Hub\\Projects\\\u8DEF\u5F84\u89C4\u5212\\assets\\scripts\\node.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{636B74F2-E29D-8C40-1D35-FBF71811FAA4}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\node.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{636B74F2-E29D-8C40-1D35-FBF71811FAA4}|Assembly-CSharp.csproj|d:\\unity hub\\projects\\\u8DEF\u5F84\u89C4\u5212\\assets\\scripts\\brush.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{636B74F2-E29D-8C40-1D35-FBF71811FAA4}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\brush.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{636B74F2-E29D-8C40-1D35-FBF71811FAA4}|Assembly-CSharp.csproj|D:\\Unity Hub\\Projects\\\u8DEF\u5F84\u89C4\u5212\\assets\\scripts\\map.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{636B74F2-E29D-8C40-1D35-FBF71811FAA4}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\map.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{636B74F2-E29D-8C40-1D35-FBF71811FAA4}|Assembly-CSharp.csproj|d:\\unity hub\\projects\\\u8DEF\u5F84\u89C4\u5212\\assets\\scripts\\brushmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{636B74F2-E29D-8C40-1D35-FBF71811FAA4}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\brushmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,44 +30,72 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 4,
+              "Title": "BrushManager.cs",
+              "DocumentMoniker": "D:\\Unity Hub\\Projects\\\u8DEF\u5F84\u89C4\u5212\\Assets\\Scripts\\BrushManager.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\BrushManager.cs",
+              "ToolTip": "D:\\Unity Hub\\Projects\\\u8DEF\u5F84\u89C4\u5212\\Assets\\Scripts\\BrushManager.cs",
+              "RelativeToolTip": "Assets\\Scripts\\BrushManager.cs",
+              "ViewState": "AgIAAAcAAAAAAAAAAAA3wAwAAAAOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-30T13:25:17.378Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Brush.cs",
+              "DocumentMoniker": "D:\\Unity Hub\\Projects\\\u8DEF\u5F84\u89C4\u5212\\Assets\\Scripts\\Brush.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Brush.cs",
+              "ToolTip": "D:\\Unity Hub\\Projects\\\u8DEF\u5F84\u89C4\u5212\\Assets\\Scripts\\Brush.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Brush.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-30T12:02:04.746Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "Node.cs",
               "DocumentMoniker": "D:\\Unity Hub\\Projects\\\u8DEF\u5F84\u89C4\u5212\\Assets\\Scripts\\Node.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Node.cs",
               "ToolTip": "D:\\Unity Hub\\Projects\\\u8DEF\u5F84\u89C4\u5212\\Assets\\Scripts\\Node.cs",
               "RelativeToolTip": "Assets\\Scripts\\Node.cs",
-              "ViewState": "AgIAACIAAAAAAAAAAAAawDAAAAAZAAAAAAAAAA==",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAowDcAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-29T12:11:44.779Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "Map.cs",
               "DocumentMoniker": "D:\\Unity Hub\\Projects\\\u8DEF\u5F84\u89C4\u5212\\Assets\\Scripts\\Map.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Map.cs",
               "ToolTip": "D:\\Unity Hub\\Projects\\\u8DEF\u5F84\u89C4\u5212\\Assets\\Scripts\\Map.cs",
               "RelativeToolTip": "Assets\\Scripts\\Map.cs",
-              "ViewState": "AgIAAAsAAAAAAAAAAADwvx4AAAAxAAAAAAAAAA==",
+              "ViewState": "AgIAABoAAAAAAAAAAADwvyoAAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-29T08:53:37.964Z"
+              "WhenOpened": "2024-10-29T08:53:37.964Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "AStar.cs",
               "DocumentMoniker": "D:\\Unity Hub\\Projects\\\u8DEF\u5F84\u89C4\u5212\\Assets\\Scripts\\AStar.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\AStar.cs",
               "ToolTip": "D:\\Unity Hub\\Projects\\\u8DEF\u5F84\u89C4\u5212\\Assets\\Scripts\\AStar.cs",
               "RelativeToolTip": "Assets\\Scripts\\AStar.cs",
-              "ViewState": "AgIAAFwAAAAAAAAAAAAawGAAAAAtAAAAAAAAAA==",
+              "ViewState": "AgIAAAcAAAAAAAAAAAAuwA0AAAA4AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-28T11:13:10.1Z"
+              "WhenOpened": "2024-10-28T11:13:10.1Z",
+              "EditorCaption": ""
             }
           ]
         }

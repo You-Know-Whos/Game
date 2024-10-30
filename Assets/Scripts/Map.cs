@@ -7,14 +7,17 @@ public class Map : MonoBehaviour
 {
     public int Width;
     public int Height;
+    public int[,] walkable;
+
     public List<List<Node>> nodes;
     public GameObject NodePrefab;
 
 
 
-    private void Start()
+    private void Awake()
     {
         //≥ı ºªØµÿÕº
+
         nodes = new List<List<Node>>(Width + 1);
         nodes.Add(new List<Node>(Height + 1));
         for (int i = 1; i <= Width; i++)
@@ -29,6 +32,15 @@ public class Map : MonoBehaviour
                 node.X = i; node.Y = j;
                 nodes[i].Add(node);
                 node.gameObject.SetActive(false);
+            }
+        }
+
+        walkable = new int[Width + 1, Height + 1];
+        for (int i = 1; i <= Width; i++)
+        {
+            for (int j = 1; j <= Height; j++)
+            {
+                walkable[i, j] = 1;
             }
         }
     }
