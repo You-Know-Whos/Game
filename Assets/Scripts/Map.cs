@@ -8,6 +8,8 @@ public class Map : MonoBehaviour
     public int Width;
     public int Height;
     public int[,] walkable;
+    public int status = 0;
+    public int isReachable = 0;
 
     private AStar aStar;
     private Node start;
@@ -93,7 +95,7 @@ public class Map : MonoBehaviour
     }
     private void BanButton()
     {
-        if (aStar.status == 1)
+        if (status == 1)
         {
             for (int i = 1; i <= Width; i++)
             {

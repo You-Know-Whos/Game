@@ -9,16 +9,16 @@ using UnityEngine.UI;
 public class AStar : MonoBehaviour
 {
     private Map map;
-
     private List<List<Node>> nodes;
+
     private HashSet<Node> openSet = new HashSet<Node>();
     private HashSet<Node> closedSet = new HashSet<Node>();
     public Node start;
     public Node end;
-    public int status = 0;
 
 
-    //TODO：重新开始，对角问题，没有路径的情况，禁止多个起点，dijkstra算法，增强健壮性
+
+    //TODO：重新开始，JPS算法，增强健壮性，UI界面
     private void OnEnable()
     {
         EventManager.goAction += OnGo;
@@ -32,26 +32,26 @@ public class AStar : MonoBehaviour
     {
         EventManager.goAction -= OnGo;
     }
-
-    public void OnGo()
+    private void OnGo()
     {
-        if (status == 0)
+        if (map.status == 0)
         {
+            int isStart = 0, isEnd = 0;
             for (int i = 1; i <= map.Width; i++)
             {
                 for (int j = 1; j <= map.Height; j++)
                 {
-                    if (nodes[i][j].transform.parent.GetComponent<Image>().color == Color.green)
-                        start = nodes[i][j];
-                    else if (nodes[i][j].transform.parent.GetComponent<Image>().color == Color.blue)
-                        end = nodes[i][j];
+                    if (nodes[i][j].transform.parent.GetComponent<Image>().color == Color.green) {
+                        start = nodes[i][j]; isStart += 1; }
+                    else if (nodes[i][j].transform.parent.GetComponent<Image>().color == Color.blue) {
+                        end = nodes[i][j]; isEnd += 1; }
                     else if (nodes[i][j].transform.parent.GetComponent<Image>().color == Color.black)
                         map.walkable[i, j] = 0;
                 }
             }
-            if (start != null && end != null)
+            if (isStart == 1 && isEnd == 1)
             {
-                status = 1;
+                map.status = 1;
 
                 start.H = (Mathf.Abs(start.X - end.X) + Mathf.Abs(start.Y - end.Y)) * 10;
                 start.gText.text = start.G.ToString();
@@ -83,9 +83,13 @@ public class AStar : MonoBehaviour
             }
             else
             {
-                if (end == null)
+                if (isEnd > 1)
+                    print("Too many Ends!!!");
+                else if (isEnd < 1)
                     print("The end haven't been set yet!!!");
-                if (start == null)
+                if (isStart > 1)
+                    print("Too many starts!!!");
+                else if (isEnd < 1)
                     print("The start haven't been set yet!!!");
             }
         }
@@ -95,14 +99,9 @@ public class AStar : MonoBehaviour
         openSet.Add(start);
         while (openSet.Count > 0)
         {
-            Node min = start;
+            Node min = null;
             foreach (Node node in openSet)
-            {
-                min = node;
-                break;
-            }
-            foreach (Node node in openSet)
-                if (node.F < min.F)
+                if (min == null || node.F < min.F)
                     min = node;
             openSet.Remove(min);
             closedSet.Add(min);
@@ -129,7 +128,6 @@ public class AStar : MonoBehaviour
                         newPath = min.G + 14;
                     else
                         newPath = min.G + 10;
-                    print(newPath + "\t" + node.G);
                     if (newPath < node.G)
                     {
                         node.G = newPath;
@@ -137,35 +135,38 @@ public class AStar : MonoBehaviour
                         node.fText.text = node.F.ToString();
                         node.Parent = min;
                     }
-                    yield return new WaitForSeconds(0.1f);
+                    yield return new WaitForSeconds(0.02f);
                     yield return new WaitWhile(() => !Input.GetKey(KeyCode.RightArrow));//Lambda
                     node.transform.parent.GetComponent<Image>().color = Color.yellow;
                 }
             }
             min.transform.parent.GetComponentInParent<Image>().color = Color.yellow;
         }
+        if (map.isReachable == 0)
+            print("NoPath!!!");
     }
     private List<Node> GetNeighbors(Node node)
     {
         List<Node> neighbors = new List<Node>();
         int x = node.X; int y = node.Y;
         //下
-        SetNeighbors(neighbors, node, x-1, y+1);
-        SetNeighbors(neighbors, node, x, y+1);
-        SetNeighbors(neighbors, node, x+1, y+1);
+        SetNeighbors(neighbors, node, x-1, y+1, true);
+        SetNeighbors(neighbors, node, x, y+1, false);
+        SetNeighbors(neighbors, node, x+1, y+1, true);
         //中
-        SetNeighbors(neighbors, node, x-1, y);
-        SetNeighbors(neighbors, node, x+1, y);
+        SetNeighbors(neighbors, node, x-1, y, false);
+        SetNeighbors(neighbors, node, x+1, y, false);
         //上
-        SetNeighbors(neighbors, node, x-1, y-1);
-        SetNeighbors(neighbors, node, x, y-1);
-        SetNeighbors(neighbors, node, x+1, y-1);
+        SetNeighbors(neighbors, node, x-1, y-1, true);
+        SetNeighbors(neighbors, node, x, y-1, false);
+        SetNeighbors(neighbors, node, x+1, y-1, true);
         return neighbors;
 
     }
-    private void SetNeighbors(List<Node> neighbors, Node node, int x, int y)
+    private void SetNeighbors(List<Node> neighbors, Node node, int x, int y, bool isDiagonal)
     {
-        if (IsInMap(x, y) && IsWalkable(x, y) && IsClosed(x, y))
+        if ( IsInMap(x, y) && IsWalkable(x, y) && IsClosed(x, y)
+            && ( !isDiagonal || (isDiagonal && IsDiagonal(node, x, y)) ) )
         {
             neighbors.Add(nodes[x][y]);
             if (nodes[x][y].Parent == null)
@@ -204,13 +205,19 @@ public class AStar : MonoBehaviour
     {
         return !closedSet.Contains(nodes[x][y]);
     }
+    private bool IsDiagonal(Node node, int x, int y)
+    {
+        return IsWalkable(node.X, y) || IsWalkable(x, node.Y);
+    }
     private void RetracePath(Node endNode)
     {
+        print(endNode.G);
         Node curNode = endNode;
         while (curNode != null)
         {
             curNode.gameObject.GetComponent<Image>().color = Color.red;
             curNode = curNode.Parent;
         }
+        map.isReachable = 1;
     }
 }
