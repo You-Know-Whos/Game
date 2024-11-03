@@ -8,20 +8,16 @@ public class JPS : MonoBehaviour
     private Map map;
     private List<List<Node>> nodes;
 
-    private List<Node> jumpPoints = new List<Node>();
-    //private HashSet<Node> openSet = new HashSet<Node>();
+    private HashSet<Node> jumpPoints = new HashSet<Node>();
+    private HashSet<Node> openSet = new HashSet<Node>();
     private HashSet<Node> closedSet = new HashSet<Node>();
     public Node start;
     public Node end;
     private Vector2Int[] dirs = new Vector2Int[] { Vector2Int.zero.Settt(-1, -1), Vector2Int.zero.Settt(1, -1),//上
                                                    Vector2Int.zero.Settt(-1, 1), Vector2Int.zero.Settt(1, 1) };//下
-    //private Vector2Int[] dirs = new Vector2Int[] { Vector2Int.zero.Settt(-1, -1), Vector2Int.down, Vector2Int.zero.Settt(1, -1),//上
-    //                                               Vector2Int.left, Vector2Int.right,//中
-    //                                               Vector2Int.zero.Settt(-1, 1), Vector2Int.up, Vector2Int.one };//下
+    
 
 
-
-    //暂时不用openSet，之后再看需不需要
     private void OnEnable()
     {
         EventManager.goAction += OnGo;
@@ -59,14 +55,6 @@ public class JPS : MonoBehaviour
             if (isStart == 1 && isEnd == 1)
             {
                 map.status = 1;
-
-                start.H = (Mathf.Abs(start.X - end.X) + Mathf.Abs(start.Y - end.Y)) * 10;
-                start.gText.text = start.G.ToString();
-                start.hText.text = start.H.ToString();
-                start.fText.text = start.F.ToString();
-                end.gText.text = end.G.ToString();
-                end.hText.text = end.H.ToString();
-                end.fText.text = end.F.ToString();
                 start.gameObject.SetActive(true);
                 end.gameObject.SetActive(true);
                 if (map.mapPrefab != null)
@@ -104,44 +92,89 @@ public class JPS : MonoBehaviour
     IEnumerator Go()
     {
         jumpPoints.Add(start);
-        while (jumpPoints.Count > 0)
+        openSet.Add(start);
+        while (openSet.Count > 0)
         {
-            foreach (var node in jumpPoints)
+            foreach (var node in openSet)
             {
                 foreach (var dir in dirs)
                 {
                     Jump(node, node, dir);
+                    //yield return new WaitForSeconds(0.2f);
+                    yield return null;
                 }
+                closedSet.Add(node);
             }
+            openSet.Clear();
+            foreach (var node in jumpPoints)
+            {
+                openSet.Add(node);
+            }
+            foreach (var node in closedSet)
+                if (openSet.Contains(node))
+                    openSet.Remove(node);
         }
-        yield return null;
+        print(end.reachablePath.Count);
+        if (!map.isReachable)
+            print("NoPath!!!");
+        else
+            print("Over");
     }
     private void Jump(Node nodeParent, Node node, Vector2Int dir)
     {
-        StraightJump(nodeParent, node, dir.Settt(0, dir.y));
-        StraightJump(nodeParent, node, dir.Settt(dir.x, 0));
+        //Notice：判断方式有问题
+        if (!node.IsChecked && (IsJumpPoint(node, dir.Settt(0, dir.y)) || IsJumpPoint(node, dir.Settt(dir.x, 0))))
+        {
+            if (node.X == end.X && node.Y == end.Y)
+            {
+                if (!end.reachablePath.Contains(nodeParent))
+                    end.reachablePath.Add(nodeParent);
+                print(nodeParent.X + ", " + nodeParent.Y);
+                nodeParent.GetComponent<Image>().color = Color.cyan;
+                map.isReachable = true;
+                return;
+            }
+            node.gameObject.SetActive(true);
+            node.transform.parent.GetComponent<Image>().color = Color.yellow;
+            jumpPoints.Add(node);
+            if (node.Parent == null)
+                node.Parent = nodeParent;
+        }
+        node.IsChecked = true;
+
+        StraightJump(node, node, dir.Settt(0, dir.y));
+        StraightJump(node, node, dir.Settt(dir.x, 0));
 
         int x = node.X + dir.x; int y = node.Y + dir.y;
-        if (IsInMap(x, y) && IsWalkable(x, y))
-        {
-            if (IsJumpPoint(node))
-            {
-                node.Parent = nodeParent;
-                jumpPoints.Add(node);
-            }
-            else
-                Jump(nodeParent, nodes[x][y], dir);
-        }
+        if (IsWalkable(x, y) && !nodes[x][y].IsChecked)
+            Jump(nodeParent, nodes[x][y], dir);
     }
     private void StraightJump(Node nodeParent, Node node, Vector2Int dir)
     {
         int x = node.X + dir.x; int y = node.Y + dir.y;
-        if (IsInMap(x, y) && IsWalkable(x, y))
+        if (IsWalkable(x, y) && !nodes[x][y].IsChecked)
         {
-            if (IsJumpPoint(node))
+            nodes[x][y].transform.parent.GetComponent<Image>().color = Color.gray;
+            nodes[x][y].IsChecked = true;
+            if (IsJumpPoint(nodes[x][y], dir))
             {
-                node.Parent = nodeParent;
-                jumpPoints.Add(node);
+                if (x == end.X && y == end.Y)
+                {
+                    if (!end.reachablePath.Contains(nodeParent))
+                        end.reachablePath.Add(nodeParent);
+                    print(nodeParent.X + ", " + nodeParent.Y);
+                    nodeParent.gameObject.SetActive(true);
+                    nodeParent.transform.parent.GetComponent<Image>().color = Color.yellow;
+                    nodeParent.GetComponent<Image>().color = Color.red;
+                    map.isReachable = true;
+                    return;
+                }
+                nodes[x][y].gameObject.SetActive(true);
+                nodes[x][y].transform.parent.GetComponent<Image>().color = Color.yellow;
+                jumpPoints.Add(nodeParent);
+                jumpPoints.Add(nodes[x][y]);
+                if (nodes[x][y].Parent == null)
+                    nodes[x][y].Parent = nodeParent;
             }
             else
                 StraightJump(nodeParent, nodes[x][y], dir);
@@ -151,18 +184,20 @@ public class JPS : MonoBehaviour
     {
         return x >= 1 && x <= map.Width && y >= 1 && y <= map.Height;
     }
-    private bool IsWalkable(int x, int y)
+    private bool IsNotBlock(int x, int y)
     {
         return map.walkable[x, y] == 1;
     }
-    private bool IsJumpPoint(Node node)
+    private bool IsWalkable(int x, int y)
     {
-
-
-        return true;
+        return IsInMap(x, y) && IsNotBlock(x, y);
     }
-    private void IsForcedNeighbor()
+    private bool IsJumpPoint(Node node, Vector2Int dir)
     {
-
+        return (
+                (!IsWalkable(node.X + dir.y, node.Y + dir.x) && IsWalkable(node.X + dir.x + dir.y, node.Y + dir.y + dir.x))
+                ||(!IsWalkable(node.X - dir.y, node.Y - dir.x) && IsWalkable(node.X + dir.x - dir.y, node.Y + dir.y - dir.x))
+               )
+               ||(node.X == end.X && node.Y == end.Y);
     }
 }

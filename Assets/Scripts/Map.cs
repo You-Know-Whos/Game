@@ -9,7 +9,7 @@ public class Map : MonoBehaviour
     public int Height;
     public int[,] walkable;
     public int status = 0;
-    public int isReachable = 0;
+    public bool isReachable = false;
 
     private AStar aStar;
     private Node start;

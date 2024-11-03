@@ -18,7 +18,7 @@ public class AStar : MonoBehaviour
 
 
 
-    //TODO：重新开始，JPS算法，增强健壮性，UI界面
+    //TODO：重新开始，JPS算法，修改mapprefab逻辑，设置文本的显示，JPS每个节点多个祖先
     private void OnEnable()
     {
         EventManager.goAction += OnGo;
@@ -105,7 +105,7 @@ public class AStar : MonoBehaviour
                     min = node;
             openSet.Remove(min);
             closedSet.Add(min);
-            min.gameObject.GetComponent<Image>().color = Color.gray;
+            min.GetComponent<Image>().color = Color.gray;
             min.transform.parent.GetComponentInParent<Image>().color = Color.magenta;
 
             List<Node> neighbors = GetNeighbors(min);
@@ -142,8 +142,10 @@ public class AStar : MonoBehaviour
             }
             min.transform.parent.GetComponentInParent<Image>().color = Color.yellow;
         }
-        if (map.isReachable == 0)
+        if (!map.isReachable)
             print("NoPath!!!");
+        else
+            print("Over");
     }
     private List<Node> GetNeighbors(Node node)
     {
@@ -165,7 +167,7 @@ public class AStar : MonoBehaviour
     }
     private void SetNeighbors(List<Node> neighbors, Node node, int x, int y, bool isDiagonal)
     {
-        if ( IsInMap(x, y) && IsWalkable(x, y) && IsClosed(x, y)
+        if ( IsInMap(x, y) && IsNotblock(x, y) && IsClosed(x, y)
             && ( !isDiagonal || (isDiagonal && IsDiagonal(node, x, y)) ) )
         {
             neighbors.Add(nodes[x][y]);
@@ -197,7 +199,7 @@ public class AStar : MonoBehaviour
     {
         return x >= 1 && x <= map.Width && y >= 1 && y <= map.Height;
     }
-    private bool IsWalkable(int x, int y)
+    private bool IsNotblock(int x, int y)
     {
         return map.walkable[x, y] == 1;
     }
@@ -207,7 +209,7 @@ public class AStar : MonoBehaviour
     }
     private bool IsDiagonal(Node node, int x, int y)
     {
-        return IsWalkable(node.X, y) || IsWalkable(x, node.Y);
+        return IsNotblock(node.X, y) || IsNotblock(x, node.Y);
     }
     private void RetracePath(Node endNode)
     {
@@ -218,6 +220,6 @@ public class AStar : MonoBehaviour
             curNode.gameObject.GetComponent<Image>().color = Color.red;
             curNode = curNode.Parent;
         }
-        map.isReachable = 1;
+        map.isReachable = true;
     }
 }

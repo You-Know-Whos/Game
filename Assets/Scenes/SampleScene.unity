@@ -238,6 +238,7 @@ GameObject:
   - component: {fileID: 208606083}
   - component: {fileID: 208606082}
   - component: {fileID: 208606081}
+  - component: {fileID: 208606085}
   - component: {fileID: 208606078}
   - component: {fileID: 208606077}
   m_Layer: 5
@@ -283,7 +284,7 @@ MonoBehaviour:
   status: 0
   isReachable: 0
   NodePrefab: {fileID: 6902065721097497579, guid: 6b72861a18d77cc4498bc42486419571, type: 3}
-  mapPrefab: {fileID: 0}
+  mapPrefab: {fileID: 11400000, guid: 997a36f617afb2244b75a624470ff104, type: 2}
 --- !u!114 &208606078
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -304,7 +305,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 208606075}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fafc8efafc319e844a649e2fe7d3806e, type: 3}
   m_Name: 
@@ -373,6 +374,20 @@ MonoBehaviour:
   m_Spacing: {x: 10, y: 10}
   m_Constraint: 0
   m_ConstraintCount: 100
+--- !u!114 &208606085
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 208606075}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c02e5ad5ceb6194b9509d599f5c1428, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  start: {fileID: 0}
+  end: {fileID: 0}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0

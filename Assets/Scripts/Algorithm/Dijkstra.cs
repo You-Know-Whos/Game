@@ -152,8 +152,10 @@ public class Dijkstra : MonoBehaviour
             }
             min.transform.parent.GetComponentInParent<Image>().color = Color.yellow;
         }
-        if (map.isReachable == 0)
+        if (!map.isReachable)
             print("NoPath!!!");
+        else
+            print("Over");
     }
     private List<Node> GetNeighbors(Node node)
     {
@@ -205,7 +207,7 @@ public class Dijkstra : MonoBehaviour
             curNode.gameObject.GetComponent<Image>().color = Color.red;
             curNode = curNode.Parent;
         }
-        map.isReachable = 1;
+        map.isReachable = true;
     }
 
     //private void Calculate(Node node, Node parent)

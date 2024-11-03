@@ -22,6 +22,8 @@ public class Node : MonoBehaviour
     public int D;
 
     //JPS
+    public bool IsChecked = false;
+    public List<Node> reachablePath = new List<Node>();
 
 
     private void Awake()

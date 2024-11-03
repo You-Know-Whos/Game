@@ -25,14 +25,14 @@
 //                Nodes[x, y] = new Node();
 //                Nodes[x, y].X = x;
 //                Nodes[x, y].Y = y;
-//                Nodes[x, y].IsWalkable = true;//默认所有节点可走
+//                Nodes[x, y].IsNotBlock = true;//默认所有节点可走
 //            }
 //        }
 //    }
 
 //    public void SetWalkable(int x, int y, bool isWalkable)
 //    {
-//        Nodes[x, y].IsWalkable = isWalkable;
+//        Nodes[x, y].IsNotBlock = isWalkable;
 //    }
 
 //    public List<Node> GetNeighbors(Node node)
@@ -126,7 +126,7 @@
 //        int x = current.X;
 //        int y = current.Y;
 
-//        while (grid.IsInBounds(x, y) && grid.Nodes[x, y].IsWalkable)
+//        while (grid.IsInBounds(x, y) && grid.Nodes[x, y].IsNotBlock)
 //        {
 //            // 检查是否到达目标
 //            if (x == goal.X && y == goal.Y)
@@ -157,12 +157,12 @@
 //                int newX = x + dx;
 //                int newY = y + dy;
 
-//                if (grid.IsInBounds(newX, newY) && !grid.Nodes[newX, newY].IsWalkable)
+//                if (grid.IsInBounds(newX, newY) && !grid.Nodes[newX, newY].IsNotBlock)
 //                {
 //                    // 检查对角线邻居
 //                    if (grid.IsInBounds(x + dx, y) && grid.IsInBounds(x, y + dy))
 //                    {
-//                        if (grid.Nodes[x + dx, y].IsWalkable || grid.Nodes[x, y + dy].IsWalkable)
+//                        if (grid.Nodes[x + dx, y].IsNotBlock || grid.Nodes[x, y + dy].IsNotBlock)
 //                        {
 //                            return true; // 有强制邻居
 //                        }
