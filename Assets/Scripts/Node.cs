@@ -6,11 +6,11 @@ using UnityEngine.UI;
 
 public class Node : MonoBehaviour
 {
-    public Node Parent;
     public int X;
     public int Y;
 
     //AStart
+    public Node Parent;
     public int G;
     public int H;
     public int F { get { return G + H; } }
@@ -22,6 +22,10 @@ public class Node : MonoBehaviour
     public int D;
 
     //JPS
+    public List<Node> children = new List<Node>();
+    public Vector2Int dir;
+    public Node forcedNeighbor;
+
     public bool IsChecked = false;
     public List<Node> reachablePath = new List<Node>();
 

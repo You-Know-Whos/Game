@@ -18,7 +18,8 @@ public class AStar : MonoBehaviour
 
 
 
-    //TODO：重新开始，JPS算法，修改mapprefab逻辑，设置文本的显示，JPS每个节点多个祖先
+    //TODO：重新开始，做UI，修改mapprefab逻辑，设置文本的显示，JPS每个节点多个祖先，JPS找点，Dijkstra找多个终点的路径（可行性待定），设置箭头图标（增加后，点击跳点显示父节点，防止路径重合）
+    //      协程位置改一下，加入jumppoints的几步如果相同就写成函数，对角问题
     private void OnEnable()
     {
         EventManager.goAction += OnGo;

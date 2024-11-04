@@ -75,7 +75,7 @@
 //    public List<Node> FindPath(Node start, Node goal)
 //    {
 //        List<Node> path = new List<Node>();
-//        List<Node> jumpPoints = Jump(start, goal);
+//        List<Node> jumpPoints = ElderJump(start, goal);
 
 //        foreach (Node jumpPoint in jumpPoints)
 //        {
@@ -84,7 +84,7 @@
 
 //        return path;
 //    }
-//    private List<Node> Jump(Node current, Node goal)
+//    private List<Node> ElderJump(Node current, Node goal)
 //    {
 //        List<Node> jumpPoints = new List<Node>();
 
@@ -112,10 +112,10 @@
 //        // 在四个方向上跳跃
 //        foreach (var direction in new[] { Vector2Int.up, Vector2Int.down, Vector2Int.left, Vector2Int.right })
 //        {
-//            Node next = JumpInDirection(current, direction, goal);
-//            if (next != null)
+//            Node children = JumpInDirection(current, direction, goal);
+//            if (children != null)
 //            {
-//                return next;
+//                return children;
 //            }
 //        }
 
