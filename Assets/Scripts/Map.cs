@@ -33,6 +33,7 @@ public class Map : MonoBehaviour
         glg.cellSize = new Vector2(nodeWidth, nodeHeight);
         glg.spacing = new Vector2(nodeWidth*0.1f, nodeHeight*0.1f);
 
+        //向地图添加node并设置大小
         nodes = new List<List<Node>>(Width + 1);
         nodes.Add(new List<Node>(Height + 1));
         for (int i = 1; i <= Width; i++)
@@ -50,6 +51,7 @@ public class Map : MonoBehaviour
                 node.gameObject.SetActive(false);
             }
         }
+        //记录障碍物
         walkable = new int[Width + 1, Height + 1];
         for (int i = 1; i <= Width; i++)
         {
@@ -58,6 +60,7 @@ public class Map : MonoBehaviour
                 walkable[i, j] = 1;
             }
         }
+        //布局预制地图
         if (mapPrefab != null)
         {
             for (int i = 1; i <= Width; i++)

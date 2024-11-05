@@ -193,7 +193,7 @@ MonoBehaviour:
   status: 0
   isReachable: 0
   NodePrefab: {fileID: 6902065721097497579, guid: 6b72861a18d77cc4498bc42486419571, type: 3}
-  mapPrefab: {fileID: 11400000, guid: 0a31e9bccd3745c478a7dac97614905d, type: 2}
+  mapPrefab: {fileID: 11400000, guid: be31c2f93f780c140af0f5a0148c8e06, type: 2}
 --- !u!114 &520159743
 MonoBehaviour:
   m_ObjectHideFlags: 0

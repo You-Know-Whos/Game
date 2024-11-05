@@ -18,8 +18,9 @@ public class AStar : MonoBehaviour
 
 
 
-    //TODO：重新开始，做UI，修改mapprefab逻辑，设置文本的显示，JPS每个节点多个祖先，JPS找点，Dijkstra找多个终点的路径（可行性待定），设置箭头图标（增加后，点击跳点显示父节点，防止路径重合）
-    //      协程位置改一下，加入jumppoints的几步如果相同就写成函数，对角问题
+    //TODO：做UI，重新开始，保存按钮，跳过键，设置文本的显示，
+    //      JPS每个节点多个祖先，JPS找点，Dijkstra找多个终点的路径（可行性待定），设置箭头图标（增加后，点击跳点显示父节点，防止路径重合）
+    //      协程位置改一下，加入jumppoints的几步如果相同就写成函数，动态地图，dijkstra
     private void OnEnable()
     {
         EventManager.goAction += OnGo;
@@ -63,6 +64,8 @@ public class AStar : MonoBehaviour
                 end.fText.text = end.F.ToString();
                 start.gameObject.SetActive(true);
                 end.gameObject.SetActive(true);
+                start.transform.Find("AStar").gameObject.SetActive(true);
+                end.transform.Find("AStar").gameObject.SetActive(true);
                 if (map.mapPrefab != null)
                 {
                     for (int i = 1; i <= map.Width; i++)
@@ -121,6 +124,7 @@ public class AStar : MonoBehaviour
                 if (node != null)
                 {
                     node.gameObject.SetActive(true);
+                    node.transform.Find("AStar").gameObject.SetActive(true);
                     node.transform.parent.GetComponent<Image>().color = Color.red;
                     openSet.Add(node);
 
@@ -175,6 +179,7 @@ public class AStar : MonoBehaviour
             if (nodes[x][y].Parent == null)
                 nodes[x][y].Parent = node;
             nodes[x][y].gameObject.SetActive(true);
+            nodes[x][y].transform.Find("AStar").gameObject.SetActive(true);
             Calculate(nodes[x][y], nodes[x][y].Parent);
         }
         else neighbors.Add(null);
@@ -196,18 +201,6 @@ public class AStar : MonoBehaviour
         node.gText.text = node.G.ToString();
         node.fText.text = node.F.ToString();
     }
-    private bool IsInMap(int x, int y)
-    {
-        return x >= 1 && x <= map.Width && y >= 1 && y <= map.Height;
-    }
-    private bool IsNotblock(int x, int y)
-    {
-        return map.walkable[x, y] == 1;
-    }
-    private bool IsClosed(int x, int y)
-    {
-        return !closedSet.Contains(nodes[x][y]);
-    }
     private bool IsDiagonal(Node node, int x, int y)
     {
         return IsNotblock(node.X, y) || IsNotblock(x, node.Y);
@@ -222,5 +215,18 @@ public class AStar : MonoBehaviour
             curNode = curNode.Parent;
         }
         map.isReachable = true;
+    }
+
+    private bool IsInMap(int x, int y)
+    {
+        return x >= 1 && x <= map.Width && y >= 1 && y <= map.Height;
+    }
+    private bool IsNotblock(int x, int y)
+    {
+        return map.walkable[x, y] == 1;
+    }
+    private bool IsClosed(int x, int y)
+    {
+        return !closedSet.Contains(nodes[x][y]);
     }
 }

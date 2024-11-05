@@ -14,9 +14,7 @@ public class JPS : MonoBehaviour
     private HashSet<Node> closedSet = new HashSet<Node>();
     public Node start;
     public Node end;
-    private Vector2Int[] dirs = new Vector2Int[] { Vector2Int.zero.Settt(-1, -1), Vector2Int.zero.Settt(1, -1),//上
-                                                   Vector2Int.zero.Settt(-1, 1), Vector2Int.zero.Settt(1, 1) };//下
-    
+
 
 
     private void OnEnable()
@@ -100,14 +98,6 @@ public class JPS : MonoBehaviour
             foreach (var node in openSet)
             {
                 Jump(node, node.dir);
-                //if (node.forcedNeighbor != null)
-                //{
-                //    Jump(node.forcedNeighbor, node.dir);
-                //}
-
-
-
-
                 closedSet.Add(node);//跳完一个节点就会把这个节点放入closeSet
             }
             //更新openSet使之=jumpPoints-closedSet
@@ -120,7 +110,6 @@ public class JPS : MonoBehaviour
                 if (openSet.Contains(node))
                     openSet.Remove(node);
         }
-        print(end.reachablePath.Count);
         if (!map.isReachable)
             print("NoPath!!!");
         else
@@ -128,21 +117,23 @@ public class JPS : MonoBehaviour
     }
     private void Jump(Node node, Vector2Int dir)
     {
+        if (node.X == end.X && node.Y == end.Y)
+        {
+            map.isReachable = true;
+            return;
+        }
         if (Mathf.Abs(dir.x) + Mathf.Abs(dir.y) == 2)//斜向
         {
+            SlantJump_HasForcedNeighbor(node, dir);
             Node xNode = StraightJump(node, dir.Settt(dir.x, 0));
             Node yNode = StraightJump(node, dir.Settt(0, dir.y));
             if (xNode != null)
             {
-                xNode.dir = node.dir.Settt(dir.x, 0);
-                node.children.Add(xNode);
-                jumpPoints.Add(xNode);
+                SetJumpPoints(node, xNode, node.dir.Settt(dir.x, 0));
             }
             if (yNode != null)
             {
-                yNode.dir = node.dir.Settt(0, dir.y);
-                node.children.Add(yNode);
-                jumpPoints.Add(yNode);
+                SetJumpPoints(node, yNode, node.dir.Settt(0, dir.y));
             }
 
             int x = node.X + dir.x; int y = node.Y + dir.y;
@@ -151,9 +142,7 @@ public class JPS : MonoBehaviour
                 Node sltNode = SlantJump(nodes[x][y], dir);
                 if (sltNode != null)
                 {
-                    sltNode.dir = dir;
-                    node.children.Add(sltNode);
-                    jumpPoints.Add(sltNode);
+                    SetJumpPoints(node, sltNode, dir);
                 }
             }
         }
@@ -162,48 +151,45 @@ public class JPS : MonoBehaviour
             Node sNode = StraightJump(node, dir);
             if (sNode != null)
             {
-                sNode.dir = dir;
-                node.children.Add(sNode);
-                jumpPoints.Add(sNode);
+                SetJumpPoints(node, sNode, dir);
             }
         }
         else //start
         {
-            foreach (Vector2Int dirrr in new Vector2Int[]{ Vector2Int.zero.Settt(-1, -1), Vector2Int.zero.Settt(1, -1),//上
-                                                   Vector2Int.zero.Settt(-1, 1), Vector2Int.zero.Settt(1, 1) //下
-                                                       })
+            foreach (Vector2Int dirEach in new Vector2Int[]{ Vector2Int.zero.Settt(-1, -1), Vector2Int.down, Vector2Int.zero.Settt(1, -1),//上
+                                                           Vector2Int.zero.Settt(-1, 0), Vector2Int.zero.Settt(1, 0),//中
+                                                           Vector2Int.zero.Settt(-1, 1), Vector2Int.up, Vector2Int.zero.Settt(1, 1)//下
+                                                         })
             {
-
+                Jump(node, dirEach);
             }
         }
-        if (node.forcedNeighbor != null)
+        if (node.forcedNeighbor.Count != 0)
         {
-            node.forcedNeighbor.dir = dir.Settt(node.forcedNeighbor.X - node.X, node.forcedNeighbor.Y - node.Y);
-            node.children.Add(node.forcedNeighbor);
-            jumpPoints.Add(node.forcedNeighbor);
+            foreach (Node forcedNeighbor in node.forcedNeighbor)
+            {
+                SetJumpPoints(node, forcedNeighbor, dir.Settt(forcedNeighbor.X - node.X, forcedNeighbor.Y - node.Y));
+            }
         }
     }
     private Node SlantJump(Node node, Vector2Int dir)
     {
-        Vector2Int diagonal_01 = new Vector2Int(node.X, node.Y + dir.y);
-        Vector2Int diagonal_02 = new Vector2Int(node.X, node.Y - dir.y);
-        bool isWalkable01 = IsWalkable(diagonal_01.x, diagonal_01.y);
-        bool isWalkable02 = IsWalkable(diagonal_02.x, diagonal_02.y);
-        if (!isWalkable01 || !isWalkable02)
+        if (node.X == end.X && node.Y == end.Y)
         {
-            //node.forcedNeighbor = 
+            map.isReachable = true;
+            return node;
         }
-
+        SlantJump_HasForcedNeighbor(node, dir);
         Node xNode = StraightJump(node, dir.Settt(dir.x, 0));
         Node yNode = StraightJump(node, dir.Settt(0, dir.y));
-        if (xNode != null || yNode != null)
+        if (xNode != null || yNode != null || node.forcedNeighbor.Count != 0)
         {
             return node;
         }
         else
         {
             int x = node.X + dir.x; int y = node.Y + dir.y;
-            if (IsWalkable(x, y))
+            if (IsWalkable(x, y) && (IsWalkable(node.X, y) || IsWalkable(x, node.Y)))
             {
                 return SlantJump(nodes[x][y], dir);
             }
@@ -216,8 +202,10 @@ public class JPS : MonoBehaviour
         if (IsWalkable(x, y))
         {
             Node strNode = nodes[x][y];
-            if (IsJumpPoint(strNode, dir) && jumpPoints.Contains(nodes[x][y]))//这里不清楚是不是引用传递所以直接用nodes
+            if (IsJumpPoint(strNode, dir)/* && jumpPoints.Contains(nodes[x][y])//这里不清楚是不是引用传递所以直接用nodes*/)//这个好像没有用
             {
+                if (strNode.X == end.X && strNode.Y == end.Y)
+                    map.isReachable = true;
                 return strNode;
             }
             else
@@ -227,81 +215,51 @@ public class JPS : MonoBehaviour
         }
         return null;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    private void ElderJump(Node nodeParent, Node node, Vector2Int dir)
+    private bool IsJumpPoint(Node node, Vector2Int dir)
     {
-        //Notice：判断方式有问题
-        if (/*!node.IsChecked && */(IsJumpPoint(node, dir.Settt(0, dir.y)) || IsJumpPoint(node, dir.Settt(dir.x, 0))))
+        //设置时注意重复情况
+        if (!IsWalkable(node.X + dir.y, node.Y + dir.x) && IsWalkable(node.X + dir.x + dir.y, node.Y + dir.y + dir.x) && IsWalkable(node.X + dir.x, node.Y + dir.y))
         {
-            if (node.X == end.X && node.Y == end.Y)
-            {
-                if (!end.reachablePath.Contains(nodeParent))
-                    end.reachablePath.Add(nodeParent);
-                //print(nodeParent.X + ", " + nodeParent.Y);
-                //nodeParent.GetComponent<Image>().color = Color.cyan;
-                //map.isReachable = true;
-                //node.IsChecked = false;
-                return;
-            }
-            //node.gameObject.SetActive(true);
-            //node.transform.parent.GetComponent<Image>().color = Color.yellow;
-            jumpPoints.Add(node);
-            if (node.Parent == null)
-                node.Parent = nodeParent;
+            node.forcedNeighbor.Add(nodes[node.X + dir.x + dir.y][node.Y + dir.y + dir.x]);
         }
-        //node.IsChecked = true;
-
-        ElderStraightJump(node, node, dir.Settt(0, dir.y));
-        ElderStraightJump(node, node, dir.Settt(dir.x, 0));
-
-        int x = node.X + dir.x; int y = node.Y + dir.y;
-        if (IsWalkable(x, y)/* && !nodes[x][y].IsChecked*/)
-            ElderJump(nodeParent, nodes[x][y], dir);
-    }
-    private void ElderStraightJump(Node nodeParent, Node node, Vector2Int dir)
-    {
-        int x = node.X + dir.x; int y = node.Y + dir.y;
-        if (IsWalkable(x, y)/* && !nodes[x][y].IsChecked*/)
+        if (!IsWalkable(node.X - dir.y, node.Y - dir.x) && IsWalkable(node.X + dir.x - dir.y, node.Y + dir.y - dir.x) && IsWalkable(node.X + dir.x, node.Y + dir.y))
         {
-            //nodes[x][y].transform.parent.GetComponent<Image>().color = Color.gray;
-            //nodes[x][y].IsChecked = true;
-            if (IsJumpPoint(nodes[x][y], dir))
+            node.forcedNeighbor.Add(nodes[node.X + dir.x - dir.y][node.Y + dir.y - dir.x]);
+        }
+        if (node.forcedNeighbor.Count > 0 || (node.X == end.X && node.Y == end.Y))
+        {
+            return true;
+        }
+        else
+            return false;
+        //return (
+        //        (!IsWalkable(node.X + dir.y, node.Y + dir.x) && IsWalkable(node.X + dir.x + dir.y, node.Y + dir.y + dir.x))
+        //        ||(!IsWalkable(node.X - dir.y, node.Y - dir.x) && IsWalkable(node.X + dir.x - dir.y, node.Y + dir.y - dir.x))
+        //       )
+        //        || (node.X == end.X && node.Y == end.Y);
+    }
+    private void SetJumpPoints(Node node, Node nodeChild, Vector2Int dir)
+    {
+        nodeChild.dir = dir;
+        node.children.Add(nodeChild);
+        jumpPoints.Add(nodeChild);
+        nodeChild.gameObject.SetActive(true);
+    }
+    private void SlantJump_HasForcedNeighbor(Node node, Vector2Int dir)
+    {
+        if (!IsWalkable(node.X, node.Y - dir.y) || !IsWalkable(node.X - dir.x, node.Y))//判断该节点有无强迫邻居
+        {
+            if (!IsWalkable(node.X, node.Y - dir.y) && IsWalkable(node.X + dir.x, node.Y - dir.y) && IsWalkable(node.X + dir.x, node.Y))
             {
-                //nodeParent.gameObject.SetActive(true);
-                //nodeParent.transform.parent.GetComponent<Image>().color = Color.yellow;
-                if (x == end.X && y == end.Y)
-                {
-                    if (!end.reachablePath.Contains(nodeParent))
-                        end.reachablePath.Add(nodeParent);
-                    print(nodeParent.X + ", " + nodeParent.Y);
-                    //nodeParent.GetComponent<Image>().color = Color.red;
-                    //map.isReachable = true;
-                    //nodes[x][y].IsChecked = false;
-                    return;
-                }
-                //nodes[x][y].gameObject.SetActive(true);
-                //nodes[x][y].transform.parent.GetComponent<Image>().color = Color.yellow;
-                jumpPoints.Add(nodeParent);
-                jumpPoints.Add(nodes[x][y]);
-                if (nodes[x][y].Parent == null)
-                    nodes[x][y].Parent = nodeParent;
+                node.forcedNeighbor.Add(nodes[node.X + dir.x][node.Y - dir.y]);
             }
-            else ElderStraightJump(nodeParent, nodes[x][y], dir);
+            if (!IsWalkable(node.X - dir.x, node.Y) && IsWalkable(node.X - dir.x, node.Y + dir.y) && IsWalkable(node.X, node.Y + dir.y))
+            {
+                node.forcedNeighbor.Add(nodes[node.X - dir.x][node.Y + dir.y]);
+            }
         }
     }
+
     private bool IsInMap(int x, int y)
     {
         return x >= 1 && x <= map.Width && y >= 1 && y <= map.Height;
@@ -313,15 +271,5 @@ public class JPS : MonoBehaviour
     private bool IsWalkable(int x, int y)
     {
         return IsInMap(x, y) && IsNotBlock(x, y);
-    }
-    private bool IsJumpPoint(Node node, Vector2Int dir)
-    {
-        //TODO：添加强迫邻居，到达终点
-        //逻辑要改；还要设置强迫邻居，设置时注意重复情况，例如障碍物为一个点时；还有多个强迫邻居的情况
-        return (
-                (!IsWalkable(node.X + dir.y, node.Y + dir.x) && IsWalkable(node.X + dir.x + dir.y, node.Y + dir.y + dir.x))
-                ||(!IsWalkable(node.X - dir.y, node.Y - dir.x) && IsWalkable(node.X + dir.x - dir.y, node.Y + dir.y - dir.x))
-               )
-               ||(node.X == end.X && node.Y == end.Y);
     }
 }

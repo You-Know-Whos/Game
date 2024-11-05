@@ -3,7 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class MapPrefab : ScriptableObject
+[CreateAssetMenu()]
+public class MapPrefab : ScriptableObject
 {
     public List<Row> row;
 }

@@ -9,7 +9,7 @@ public class Node : MonoBehaviour
     public int X;
     public int Y;
 
-    //AStart
+    //AStar
     public Node Parent;
     public int G;
     public int H;
@@ -23,17 +23,16 @@ public class Node : MonoBehaviour
 
     //JPS
     public List<Node> children = new List<Node>();
+    public List<Node> forcedNeighbor = new List<Node>();
     public Vector2Int dir;
-    public Node forcedNeighbor;
-
-    public bool IsChecked = false;
-    public List<Node> reachablePath = new List<Node>();
 
 
-    private void Awake()
+
+    private void OnEnable()
     {
-        gText = transform.Find("GText").GetComponent<TextMeshProUGUI>();
-        hText = transform.Find("HText").GetComponent<TextMeshProUGUI>();
-        fText = transform.Find("FText").GetComponent<TextMeshProUGUI>();
+        //AStar
+        gText = transform.Find("AStar/GText").GetComponent<TextMeshProUGUI>();
+        hText = transform.Find("AStar/HText").GetComponent<TextMeshProUGUI>();
+        fText = transform.Find("AStar/FText").GetComponent<TextMeshProUGUI>();
     }
 }
