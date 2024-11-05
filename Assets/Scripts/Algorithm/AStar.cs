@@ -10,6 +10,7 @@ public class AStar : MonoBehaviour
 {
     private Map map;
     private List<List<Node>> nodes;
+    private ButtonManager buttonManager;
 
     private HashSet<Node> openSet = new HashSet<Node>();
     private HashSet<Node> closedSet = new HashSet<Node>();
@@ -29,6 +30,7 @@ public class AStar : MonoBehaviour
     {
         map = GetComponent<Map>();
         nodes = map.nodes;
+        buttonManager = GetComponent<ButtonManager>();
     }
     private void OnDisable()
     {
@@ -53,6 +55,7 @@ public class AStar : MonoBehaviour
             }
             if (hasStart == 1 && hasEnd == 1)
             {
+                buttonManager.OnSaveButtonClick();
                 map.status = 1;
 
                 start.H = (Mathf.Abs(start.X - end.X) + Mathf.Abs(start.Y - end.Y)) * 10;
@@ -66,23 +69,7 @@ public class AStar : MonoBehaviour
                 end.gameObject.SetActive(true);
                 start.transform.Find("AStar").gameObject.SetActive(true);
                 end.transform.Find("AStar").gameObject.SetActive(true);
-                if (map.mapPrefab != null)
-                {
-                    for (int i = 1; i <= map.Width; i++)
-                    {
-                        for (int j = 1; j <= map.Height; j++)
-                        {
-                            if (nodes[i][j].transform.parent.GetComponent<Image>().color == Color.yellow)
-                                map.mapPrefab.row[j - 1].column[i - 1] = BrushManager.NodeType.None;
-                            else if (nodes[i][j].transform.parent.GetComponent<Image>().color == Color.green)
-                                map.mapPrefab.row[j - 1].column[i - 1] = BrushManager.NodeType.Start;
-                            else if (nodes[i][j].transform.parent.GetComponent<Image>().color == Color.blue)
-                                map.mapPrefab.row[j - 1].column[i - 1] = BrushManager.NodeType.End;
-                            else if (nodes[i][j].transform.parent.GetComponent<Image>().color == Color.black)
-                                map.mapPrefab.row[j - 1].column[i - 1] = BrushManager.NodeType.Block;
-                        }
-                    }
-                }
+                
                 StartCoroutine(Go());
             }
             else

@@ -19,7 +19,7 @@ public class ButtonManager : MonoBehaviour
         nodes = map.nodes;
         saveButton.onClick.AddListener(this.OnSaveButtonClick);
     }
-    private void OnSaveButtonClick()
+    public void OnSaveButtonClick()
     {
         if (map.status == 0)
         {
@@ -39,6 +39,7 @@ public class ButtonManager : MonoBehaviour
                             map.mapPrefab.row[j - 1].column[i - 1] = BrushManager.NodeType.Block;
                     }
                 }
+                print("The map is saved!");
             }
         }
     }

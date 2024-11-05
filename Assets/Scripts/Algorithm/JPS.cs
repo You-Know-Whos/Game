@@ -8,6 +8,7 @@ public class JPS : MonoBehaviour
 {
     private Map map;
     private List<List<Node>> nodes;
+    private ButtonManager buttonManager;
 
     private HashSet<Node> jumpPoints = new HashSet<Node>();
     private HashSet<Node> openSet = new HashSet<Node>();
@@ -25,6 +26,7 @@ public class JPS : MonoBehaviour
     {
         map = GetComponent<Map>();
         nodes = map.nodes;
+        buttonManager = GetComponent<ButtonManager>();
     }
     private void OnDisable()
     {
@@ -53,6 +55,7 @@ public class JPS : MonoBehaviour
             }
             if (hasStart == 1 && hasEnd == 1)
             {
+                buttonManager.OnSaveButtonClick();
                 map.status = 1;
 
                 start.Hj = (Mathf.Abs(start.X - end.X) + Mathf.Abs(start.Y - end.Y)) * 10;
@@ -66,23 +69,7 @@ public class JPS : MonoBehaviour
                 end.gameObject.SetActive(true);
                 start.transform.Find("JPS").gameObject.SetActive(true);
                 end.transform.Find("JPS").gameObject.SetActive(true);
-                if (map.mapPrefab != null)
-                {
-                    for (int i = 1; i <= map.Width; i++)
-                    {
-                        for (int j = 1; j <= map.Height; j++)
-                        {
-                            if (nodes[i][j].transform.parent.GetComponent<Image>().color == Color.yellow)
-                                map.mapPrefab.row[j - 1].column[i - 1] = BrushManager.NodeType.None;
-                            else if (nodes[i][j].transform.parent.GetComponent<Image>().color == Color.green)
-                                map.mapPrefab.row[j - 1].column[i - 1] = BrushManager.NodeType.Start;
-                            else if (nodes[i][j].transform.parent.GetComponent<Image>().color == Color.blue)
-                                map.mapPrefab.row[j - 1].column[i - 1] = BrushManager.NodeType.End;
-                            else if (nodes[i][j].transform.parent.GetComponent<Image>().color == Color.black)
-                                map.mapPrefab.row[j - 1].column[i - 1] = BrushManager.NodeType.Block;
-                        }
-                    }
-                }
+
                 StartCoroutine(Go());
             }
             else
@@ -261,7 +248,7 @@ public class JPS : MonoBehaviour
         if (nodeChild.Parent == null || newPath < node.Gj)
         {
             nodeChild.Gj = newPath;
-            nodeChild.Parentj = node;
+            nodeChild.Parent = node;
         }
         nodeChild.Hj = (Mathf.Abs(end.X - nodeChild.X) + Mathf.Abs(end.Y - nodeChild.Y))*10;
         nodeChild.gjText.text = nodeChild.Gj.ToString();
@@ -269,7 +256,7 @@ public class JPS : MonoBehaviour
         nodeChild.fjText.text = nodeChild.Fj.ToString();
 
         nodeChild.dir = dir;
-        node.children.Add(nodeChild);
+        node.children_J.Add(nodeChild);
         jumpPoints.Add(nodeChild);
         nodeChild.gameObject.SetActive(true);
         nodeChild.transform.Find("JPS").gameObject.SetActive(true);
@@ -295,7 +282,7 @@ public class JPS : MonoBehaviour
         while (curNode != null)
         {
             curNode.gameObject.GetComponent<Image>().color = Color.red;
-            curNode = curNode.Parentj;
+            curNode = curNode.Parent;
         }
         map.isReachable = true;
     }

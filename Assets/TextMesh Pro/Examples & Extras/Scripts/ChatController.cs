@@ -44,7 +44,7 @@ public class ChatController : MonoBehaviour {
         // Keep Chat input field active
         ChatInputField.ActivateInputField();
 
-        // Set the scrollbar to the bottom when children text is submitted.
+        // Set the scrollbar to the bottom when children_J text is submitted.
         ChatScrollbar.value = 0;
     }
 

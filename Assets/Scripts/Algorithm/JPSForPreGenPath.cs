@@ -240,7 +240,7 @@ public class JPSForPreGenPath : MonoBehaviour
     private void SetJumpPoints(Node node, Node nodeChild, Vector2Int dir)
     {
         nodeChild.dir = dir;
-        node.children.Add(nodeChild);
+        node.children_J.Add(nodeChild);
         jumpPoints.Add(nodeChild);
         nodeChild.gameObject.SetActive(true);
     }
