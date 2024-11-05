@@ -34,28 +34,38 @@ public class JPS : MonoBehaviour
     {
         if (map.status == 0)
         {
-            int isStart = 0, isEnd = 0;
+            int hasStart = 0, hasEnd = 0;
             for (int i = 1; i <= map.Width; i++)
             {
                 for (int j = 1; j <= map.Height; j++)
                 {
                     if (nodes[i][j].transform.parent.GetComponent<Image>().color == Color.green)
                     {
-                        start = nodes[i][j]; isStart += 1;
+                        start = nodes[i][j]; hasStart += 1;
                     }
                     else if (nodes[i][j].transform.parent.GetComponent<Image>().color == Color.blue)
                     {
-                        end = nodes[i][j]; isEnd += 1;
+                        end = nodes[i][j]; hasEnd += 1;
                     }
                     else if (nodes[i][j].transform.parent.GetComponent<Image>().color == Color.black)
                         map.walkable[i, j] = 0;
                 }
             }
-            if (isStart == 1 && isEnd == 1)
+            if (hasStart == 1 && hasEnd == 1)
             {
                 map.status = 1;
+
+                start.Hj = (Mathf.Abs(start.X - end.X) + Mathf.Abs(start.Y - end.Y)) * 10;
+                start.gjText.text = start.Gj.ToString();
+                start.hjText.text = start.Hj.ToString();
+                start.fjText.text = start.Fj.ToString();
+                end.gjText.text = end.Gj.ToString();
+                end.hjText.text = end.Hj.ToString();
+                end.fjText.text = end.Fj.ToString();
                 start.gameObject.SetActive(true);
                 end.gameObject.SetActive(true);
+                start.transform.Find("JPS").gameObject.SetActive(true);
+                end.transform.Find("JPS").gameObject.SetActive(true);
                 if (map.mapPrefab != null)
                 {
                     for (int i = 1; i <= map.Width; i++)
@@ -77,13 +87,13 @@ public class JPS : MonoBehaviour
             }
             else
             {
-                if (isEnd > 1)
+                if (hasEnd > 1)
                     print("Too many Ends!!!");
-                else if (isEnd < 1)
+                else if (hasEnd < 1)
                     print("The end haven't been set yet!!!");
-                if (isStart > 1)
+                if (hasStart > 1)
                     print("Too many starts!!!");
-                else if (isEnd < 1)
+                else if (hasEnd < 1)
                     print("The start haven't been set yet!!!");
             }
         }
@@ -94,13 +104,19 @@ public class JPS : MonoBehaviour
         openSet.Add(start);
         while (openSet.Count > 0)
         {
-            yield return null;
+            Node min = null;
             foreach (var node in openSet)
+                if (min == null || node.Fj < min.Fj)
+                    min = node;
+            if (min.X == end.X && min.Y == end.Y)
             {
-                Jump(node, node.dir);
-                closedSet.Add(node);//跳完一个节点就会把这个节点放入closeSet
+                RetracePath(min);
+                break;
             }
-            //更新openSet使之=jumpPoints-closedSet
+            Jump(min, min.dir);
+            closedSet.Add(min);
+            min.GetComponent<Image>().color = Color.gray;
+
             openSet.Clear();
             foreach (var node in jumpPoints)
             {
@@ -109,6 +125,8 @@ public class JPS : MonoBehaviour
             foreach (var node in closedSet)
                 if (openSet.Contains(node))
                     openSet.Remove(node);
+            yield return new WaitForSeconds(0.02f);
+            yield return new WaitWhile(() => !Input.GetKey(KeyCode.RightArrow));//Lambda
         }
         if (!map.isReachable)
             print("NoPath!!!");
@@ -117,11 +135,6 @@ public class JPS : MonoBehaviour
     }
     private void Jump(Node node, Vector2Int dir)
     {
-        if (node.X == end.X && node.Y == end.Y)
-        {
-            map.isReachable = true;
-            return;
-        }
         if (Mathf.Abs(dir.x) + Mathf.Abs(dir.y) == 2)//斜向
         {
             SlantJump_HasForcedNeighbor(node, dir);
@@ -240,10 +253,26 @@ public class JPS : MonoBehaviour
     }
     private void SetJumpPoints(Node node, Node nodeChild, Vector2Int dir)
     {
+        int newPath;
+        if (Mathf.Abs(dir.x) + Mathf.Abs(dir.y) == 2)
+            newPath = node.Gj + Mathf.Abs(node.X - nodeChild.X) * 14;
+        else 
+            newPath = node.Gj + (Mathf.Abs(node.X - nodeChild.X) + Mathf.Abs(node.Y - nodeChild.Y)) * 10;
+        if (nodeChild.Parent == null || newPath < node.Gj)
+        {
+            nodeChild.Gj = newPath;
+            nodeChild.Parentj = node;
+        }
+        nodeChild.Hj = (Mathf.Abs(end.X - nodeChild.X) + Mathf.Abs(end.Y - nodeChild.Y))*10;
+        nodeChild.gjText.text = nodeChild.Gj.ToString();
+        nodeChild.hjText.text = nodeChild.Hj.ToString();
+        nodeChild.fjText.text = nodeChild.Fj.ToString();
+
         nodeChild.dir = dir;
         node.children.Add(nodeChild);
         jumpPoints.Add(nodeChild);
         nodeChild.gameObject.SetActive(true);
+        nodeChild.transform.Find("JPS").gameObject.SetActive(true);
     }
     private void SlantJump_HasForcedNeighbor(Node node, Vector2Int dir)
     {
@@ -258,6 +287,17 @@ public class JPS : MonoBehaviour
                 node.forcedNeighbor.Add(nodes[node.X - dir.x][node.Y + dir.y]);
             }
         }
+    }
+    private void RetracePath(Node endNode)
+    {
+        print("Actual distance = "+endNode.Gj);
+        Node curNode = endNode;
+        while (curNode != null)
+        {
+            curNode.gameObject.GetComponent<Image>().color = Color.red;
+            curNode = curNode.Parentj;
+        }
+        map.isReachable = true;
     }
 
     private bool IsInMap(int x, int y)

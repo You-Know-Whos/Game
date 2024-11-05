@@ -25,6 +25,13 @@ public class Node : MonoBehaviour
     public List<Node> children = new List<Node>();
     public List<Node> forcedNeighbor = new List<Node>();
     public Vector2Int dir;
+    public Node Parentj;
+    public int Gj;
+    public int Hj;
+    public int Fj { get { return Gj + Hj; } }
+    public TextMeshProUGUI gjText;
+    public TextMeshProUGUI hjText;
+    public TextMeshProUGUI fjText;
 
 
 
@@ -34,5 +41,10 @@ public class Node : MonoBehaviour
         gText = transform.Find("AStar/GText").GetComponent<TextMeshProUGUI>();
         hText = transform.Find("AStar/HText").GetComponent<TextMeshProUGUI>();
         fText = transform.Find("AStar/FText").GetComponent<TextMeshProUGUI>();
+
+        //JPS
+        gjText = transform.Find("JPS/GjText").GetComponent<TextMeshProUGUI>();
+        hjText = transform.Find("JPS/HjText").GetComponent<TextMeshProUGUI>();
+        fjText = transform.Find("JPS/FjText").GetComponent<TextMeshProUGUI>();
     }
 }

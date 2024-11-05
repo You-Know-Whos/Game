@@ -359,6 +359,7 @@
 "Assets/Scripts/Algorithm/JPSForPreGenPath.cs"
 "Assets/Scripts/Brush/Brush.cs"
 "Assets/Scripts/Brush/BrushManager.cs"
+"Assets/Scripts/ButtonManager.cs"
 "Assets/Scripts/EventManager.cs"
 "Assets/Scripts/ExtensionMethods.cs"
 "Assets/Scripts/Map.cs"

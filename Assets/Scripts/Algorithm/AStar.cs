@@ -18,9 +18,9 @@ public class AStar : MonoBehaviour
 
 
 
-    //TODO：做UI，重新开始，保存按钮，跳过键，设置文本的显示，
-    //      JPS每个节点多个祖先，JPS找点，Dijkstra找多个终点的路径（可行性待定），设置箭头图标（增加后，点击跳点显示父节点，防止路径重合）
-    //      协程位置改一下，加入jumppoints的几步如果相同就写成函数，动态地图，dijkstra
+    //TODO：做UI，重新开始，跳过键，设置文本的显示，
+    //      JPS中，Dijkstra找多个终点的路径（可行性待定），设置箭头图标（增加后，点击跳点显示父节点，防止路径重合）
+    //      动态地图，dijkstra
     private void OnEnable()
     {
         EventManager.goAction += OnGo;
@@ -38,20 +38,20 @@ public class AStar : MonoBehaviour
     {
         if (map.status == 0)
         {
-            int isStart = 0, isEnd = 0;
+            int hasStart = 0, hasEnd = 0;
             for (int i = 1; i <= map.Width; i++)
             {
                 for (int j = 1; j <= map.Height; j++)
                 {
                     if (nodes[i][j].transform.parent.GetComponent<Image>().color == Color.green) {
-                        start = nodes[i][j]; isStart += 1; }
+                        start = nodes[i][j]; hasStart += 1; }
                     else if (nodes[i][j].transform.parent.GetComponent<Image>().color == Color.blue) {
-                        end = nodes[i][j]; isEnd += 1; }
+                        end = nodes[i][j]; hasEnd += 1; }
                     else if (nodes[i][j].transform.parent.GetComponent<Image>().color == Color.black)
                         map.walkable[i, j] = 0;
                 }
             }
-            if (isStart == 1 && isEnd == 1)
+            if (hasStart == 1 && hasEnd == 1)
             {
                 map.status = 1;
 
@@ -87,13 +87,13 @@ public class AStar : MonoBehaviour
             }
             else
             {
-                if (isEnd > 1)
+                if (hasEnd > 1)
                     print("Too many Ends!!!");
-                else if (isEnd < 1)
+                else if (hasEnd < 1)
                     print("The end haven't been set yet!!!");
-                if (isStart > 1)
+                if (hasStart > 1)
                     print("Too many starts!!!");
-                else if (isEnd < 1)
+                else if (hasEnd < 1)
                     print("The start haven't been set yet!!!");
             }
         }
@@ -117,7 +117,7 @@ public class AStar : MonoBehaviour
             if (min.X == end.X && min.Y == end.Y)
             {
                 RetracePath(min);
-                yield break;
+                break;
             }
             foreach (Node node in neighbors)
             {
@@ -207,7 +207,7 @@ public class AStar : MonoBehaviour
     }
     private void RetracePath(Node endNode)
     {
-        print(endNode.G);
+        print("Actual distance = " + endNode.G);
         Node curNode = endNode;
         while (curNode != null)
         {
