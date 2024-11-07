@@ -8,12 +8,10 @@ public class Map : MonoBehaviour
     public int Width;
     public int Height;
     public int[,] walkable;
-    public int status = 0;
     public bool isReachable = false;
 
-    private AStar aStar;
-    private Node start;
-    private Node end;
+    public Node start;
+    public Node end;
 
     public List<List<Node>> nodes;
     public GameObject NodePrefab;
@@ -23,8 +21,6 @@ public class Map : MonoBehaviour
 
     private void Awake()
     {
-        aStar = transform.GetComponent<AStar>();
-
         GridLayoutGroup glg = GetComponent<GridLayoutGroup>();
         float MapWidth = GetComponent<RectTransform>().sizeDelta.x;
         float MapHeight = GetComponent<RectTransform>().sizeDelta.y;
@@ -60,14 +56,27 @@ public class Map : MonoBehaviour
                 walkable[i, j] = 1;
             }
         }
-        //布局预制地图
+        PaintMapPrefab();
+    }
+    private void OnEnable()
+    {
+        EventManager.StartAction += DisableBrushButton;
+        EventManager.StopAction += EnableBrushButton;
+    }
+    private void OnDisable()
+    {
+        EventManager.StartAction -= DisableBrushButton;
+        EventManager.StopAction -= EnableBrushButton;
+    }
+    public void PaintMapPrefab()
+    {
         if (mapPrefab != null)
         {
             for (int i = 1; i <= Width; i++)
             {
                 for (int j = 1; j <= Height; j++)
                 {
-                    switch (mapPrefab.row[j-1].column[i-1])
+                    switch (mapPrefab.row[j - 1].column[i - 1])
                     {
                         case BrushManager.NodeType.None:
                             nodes[i][j].transform.parent.GetComponent<Image>().color = Color.yellow;
@@ -88,23 +97,64 @@ public class Map : MonoBehaviour
             }
         }
     }
-    private void OnEnable()
+    public bool SetStartAndEnd()
     {
-        EventManager.goAction += BanButton;
+        int hasStart = 0, hasEnd = 0;
+        for (int i = 1; i <= Width; i++)
+        {
+            for (int j = 1; j <= Height; j++)
+            {
+                if (nodes[i][j].transform.parent.GetComponent<Image>().color == Color.green)
+                {
+                    start = nodes[i][j]; hasStart += 1;
+                }
+                else if (nodes[i][j].transform.parent.GetComponent<Image>().color == Color.blue)
+                {
+                    end = nodes[i][j]; hasEnd += 1;
+                }
+                else if (nodes[i][j].transform.parent.GetComponent<Image>().color == Color.black)
+                    walkable[i, j] = 0;
+            }
+        }
+        if (hasStart == 1 && hasEnd == 1)
+        {
+            return true;
+        }
+        else
+        {
+            if (hasEnd > 1)
+                print("Too many Ends!!!");
+            else if (hasEnd < 1)
+                print("The end haven't been set yet!!!");
+            if (hasStart > 1)
+                print("Too many starts!!!");
+            else if (hasStart < 1)
+                print("The start haven't been set yet!!!");
+            return false;
+        }
     }
-    private void OnDisable()
+    private void DisableBrushButton()
     {
-        EventManager.goAction -= BanButton;
-    }
-    private void BanButton()
-    {
-        if (status == 1)
+        if (!EventManager.Instance.status)
         {
             for (int i = 1; i <= Width; i++)
             {
                 for (int j = 1; j <= Height; j++)
                 {
                     nodes[i][j].transform.parent.GetComponent<Button>().enabled = false;
+                }
+            }
+        }
+    }
+    private void EnableBrushButton()
+    {
+        if (!EventManager.Instance.status)
+        {
+            for (int i = 1; i <= Width; i++)
+            {
+                for (int j = 1; j <= Height; j++)
+                {
+                    nodes[i][j].transform.parent.GetComponent<Button>().enabled = true;
                 }
             }
         }

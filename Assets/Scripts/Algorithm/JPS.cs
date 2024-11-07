@@ -8,85 +8,64 @@ public class JPS : MonoBehaviour
 {
     private Map map;
     private List<List<Node>> nodes;
-    private ButtonManager buttonManager;
 
     private HashSet<Node> jumpPoints = new HashSet<Node>();
     private HashSet<Node> openSet = new HashSet<Node>();
     private HashSet<Node> closedSet = new HashSet<Node>();
-    public Node start;
-    public Node end;
+    private Node start;
+    private Node end;
+    private float time = 0;
 
 
 
     private void OnEnable()
     {
-        EventManager.goAction += OnGo;
+        EventManager.StartAction += OnGo;
+        EventManager.StopAction += StopGo;
     }
     private void Start()
     {
         map = GetComponent<Map>();
-        nodes = map.nodes;
-        buttonManager = GetComponent<ButtonManager>();
+    }
+    private void FixedUpdate()
+    {
+        time += Time.deltaTime;
     }
     private void OnDisable()
     {
-        EventManager.goAction -= OnGo;
+        EventManager.StartAction -= OnGo;
+        EventManager.StopAction -= StopGo;
     }
     private void OnGo()
     {
-        if (map.status == 0)
-        {
-            int hasStart = 0, hasEnd = 0;
-            for (int i = 1; i <= map.Width; i++)
-            {
-                for (int j = 1; j <= map.Height; j++)
-                {
-                    if (nodes[i][j].transform.parent.GetComponent<Image>().color == Color.green)
-                    {
-                        start = nodes[i][j]; hasStart += 1;
-                    }
-                    else if (nodes[i][j].transform.parent.GetComponent<Image>().color == Color.blue)
-                    {
-                        end = nodes[i][j]; hasEnd += 1;
-                    }
-                    else if (nodes[i][j].transform.parent.GetComponent<Image>().color == Color.black)
-                        map.walkable[i, j] = 0;
-                }
-            }
-            if (hasStart == 1 && hasEnd == 1)
-            {
-                buttonManager.OnSaveButtonClick();
-                map.status = 1;
+        nodes = map.nodes;
+        start = map.start;
+        end = map.end;
 
-                start.Hj = (Mathf.Abs(start.X - end.X) + Mathf.Abs(start.Y - end.Y)) * 10;
-                start.gjText.text = start.Gj.ToString();
-                start.hjText.text = start.Hj.ToString();
-                start.fjText.text = start.Fj.ToString();
-                end.gjText.text = end.Gj.ToString();
-                end.hjText.text = end.Hj.ToString();
-                end.fjText.text = end.Fj.ToString();
-                start.gameObject.SetActive(true);
-                end.gameObject.SetActive(true);
-                start.transform.Find("JPS").gameObject.SetActive(true);
-                end.transform.Find("JPS").gameObject.SetActive(true);
+        start.Hj = (Mathf.Abs(start.X - end.X) + Mathf.Abs(start.Y - end.Y)) * 10;
+        start.gjText.text = start.Gj.ToString();
+        start.hjText.text = start.Hj.ToString();
+        start.fjText.text = start.Fj.ToString();
+        end.gjText.text = end.Gj.ToString();
+        end.hjText.text = end.Hj.ToString();
+        end.fjText.text = end.Fj.ToString();
+        start.gameObject.SetActive(true);
+        end.gameObject.SetActive(true);
+        start.transform.Find("JPS").gameObject.SetActive(true);
+        end.transform.Find("JPS").gameObject.SetActive(true);
 
-                StartCoroutine(Go());
-            }
-            else
-            {
-                if (hasEnd > 1)
-                    print("Too many Ends!!!");
-                else if (hasEnd < 1)
-                    print("The end haven't been set yet!!!");
-                if (hasStart > 1)
-                    print("Too many starts!!!");
-                else if (hasEnd < 1)
-                    print("The start haven't been set yet!!!");
-            }
-        }
+        StartCoroutine(Go());
+    }
+    private void StopGo()
+    {
+        StopCoroutine(Go());
+        jumpPoints.Clear();
+        openSet.Clear();
+        closedSet.Clear();
     }
     IEnumerator Go()
     {
+        float time1 = time;
         jumpPoints.Add(start);
         openSet.Add(start);
         while (openSet.Count > 0)
@@ -112,13 +91,15 @@ public class JPS : MonoBehaviour
             foreach (var node in closedSet)
                 if (openSet.Contains(node))
                     openSet.Remove(node);
-            yield return new WaitForSeconds(0.02f);
-            yield return new WaitWhile(() => !Input.GetKey(KeyCode.RightArrow));//Lambda
+            //yield return new WaitForSeconds(0.02f);
+            //yield return new WaitWhile(() => !Input.GetKey(KeyCode.RightArrow));//Lambda
+            yield return null;
         }
         if (!map.isReachable)
             print("NoPath!!!");
         else
             print("Over");
+        print(time - time1);
     }
     private void Jump(Node node, Vector2Int dir)
     {
@@ -158,8 +139,7 @@ public class JPS : MonoBehaviour
         {
             foreach (Vector2Int dirEach in new Vector2Int[]{ Vector2Int.zero.Settt(-1, -1), Vector2Int.down, Vector2Int.zero.Settt(1, -1),//上
                                                            Vector2Int.zero.Settt(-1, 0), Vector2Int.zero.Settt(1, 0),//中
-                                                           Vector2Int.zero.Settt(-1, 1), Vector2Int.up, Vector2Int.zero.Settt(1, 1)//下
-                                                         })
+                                                           Vector2Int.zero.Settt(-1, 1), Vector2Int.up, Vector2Int.zero.Settt(1, 1)})//下
             {
                 Jump(node, dirEach);
             }
@@ -215,6 +195,7 @@ public class JPS : MonoBehaviour
         }
         return null;
     }
+    
     private bool IsJumpPoint(Node node, Vector2Int dir)
     {
         //设置时注意重复情况

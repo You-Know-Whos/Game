@@ -3,24 +3,32 @@
   "WorkspaceRootPath": "D:\\Unity Hub\\Projects\\\u8DEF\u5F84\u89C4\u5212\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{636B74F2-E29D-8C40-1D35-FBF71811FAA4}|Assembly-CSharp.csproj|d:\\unity hub\\projects\\\u8DEF\u5F84\u89C4\u5212\\assets\\scripts\\algorithm\\dijkstra.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{636B74F2-E29D-8C40-1D35-FBF71811FAA4}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\algorithm\\dijkstra.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{636B74F2-E29D-8C40-1D35-FBF71811FAA4}|Assembly-CSharp.csproj|d:\\unity hub\\projects\\\u8DEF\u5F84\u89C4\u5212\\assets\\scripts\\algorithm\\jps.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{636B74F2-E29D-8C40-1D35-FBF71811FAA4}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\algorithm\\jps.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{636B74F2-E29D-8C40-1D35-FBF71811FAA4}|Assembly-CSharp.csproj|D:\\Unity Hub\\Projects\\\u8DEF\u5F84\u89C4\u5212\\assets\\scripts\\algorithm\\astar.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{636B74F2-E29D-8C40-1D35-FBF71811FAA4}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\algorithm\\astar.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{636B74F2-E29D-8C40-1D35-FBF71811FAA4}|Assembly-CSharp.csproj|D:\\Unity Hub\\Projects\\\u8DEF\u5F84\u89C4\u5212\\assets\\scripts\\node.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{636B74F2-E29D-8C40-1D35-FBF71811FAA4}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\node.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{636B74F2-E29D-8C40-1D35-FBF71811FAA4}|Assembly-CSharp.csproj|D:\\Unity Hub\\Projects\\\u8DEF\u5F84\u89C4\u5212\\assets\\scripts\\eventmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{636B74F2-E29D-8C40-1D35-FBF71811FAA4}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\eventmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{636B74F2-E29D-8C40-1D35-FBF71811FAA4}|Assembly-CSharp.csproj|D:\\Unity Hub\\Projects\\\u8DEF\u5F84\u89C4\u5212\\assets\\scripts\\map.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{636B74F2-E29D-8C40-1D35-FBF71811FAA4}|Assembly-CSharp.csproj|d:\\unity hub\\projects\\\u8DEF\u5F84\u89C4\u5212\\assets\\scripts\\map.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{636B74F2-E29D-8C40-1D35-FBF71811FAA4}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\map.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{636B74F2-E29D-8C40-1D35-FBF71811FAA4}|Assembly-CSharp.csproj|D:\\Unity Hub\\Projects\\\u8DEF\u5F84\u89C4\u5212\\assets\\scripts\\algorithm\\jpsforpregenpath.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{636B74F2-E29D-8C40-1D35-FBF71811FAA4}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\algorithm\\jpsforpregenpath.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{636B74F2-E29D-8C40-1D35-FBF71811FAA4}|Assembly-CSharp.csproj|D:\\Unity Hub\\Projects\\\u8DEF\u5F84\u89C4\u5212\\assets\\scripts\\algorithm\\jps.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{636B74F2-E29D-8C40-1D35-FBF71811FAA4}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\algorithm\\jps.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{636B74F2-E29D-8C40-1D35-FBF71811FAA4}|Assembly-CSharp.csproj|D:\\Unity Hub\\Projects\\\u8DEF\u5F84\u89C4\u5212\\assets\\scripts\\algorithm\\dijkstra.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{636B74F2-E29D-8C40-1D35-FBF71811FAA4}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\algorithm\\dijkstra.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{636B74F2-E29D-8C40-1D35-FBF71811FAA4}|Assembly-CSharp.csproj|D:\\Unity Hub\\Projects\\\u8DEF\u5F84\u89C4\u5212\\assets\\scripts\\node.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{636B74F2-E29D-8C40-1D35-FBF71811FAA4}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\node.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -35,25 +43,25 @@
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "JPS.cs",
-              "DocumentMoniker": "D:\\Unity Hub\\Projects\\\u8DEF\u5F84\u89C4\u5212\\Assets\\Scripts\\Algorithm\\JPS.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\Algorithm\\JPS.cs",
-              "ToolTip": "D:\\Unity Hub\\Projects\\\u8DEF\u5F84\u89C4\u5212\\Assets\\Scripts\\Algorithm\\JPS.cs",
-              "RelativeToolTip": "Assets\\Scripts\\Algorithm\\JPS.cs",
-              "ViewState": "AgIAAEsAAAAAAAAAAAAUwCwBAAAFAAAAAAAAAA==",
+              "Title": "EventManager.cs",
+              "DocumentMoniker": "D:\\Unity Hub\\Projects\\\u8DEF\u5F84\u89C4\u5212\\Assets\\Scripts\\EventManager.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\EventManager.cs",
+              "ToolTip": "D:\\Unity Hub\\Projects\\\u8DEF\u5F84\u89C4\u5212\\Assets\\Scripts\\EventManager.cs",
+              "RelativeToolTip": "Assets\\Scripts\\EventManager.cs",
+              "ViewState": "AgIAADoAAAAAAAAAAAAqwGUAAAA4AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-05T13:16:21.857Z",
+              "WhenOpened": "2024-11-07T00:56:09.968Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 2,
               "Title": "Map.cs",
               "DocumentMoniker": "D:\\Unity Hub\\Projects\\\u8DEF\u5F84\u89C4\u5212\\Assets\\Scripts\\Map.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Map.cs",
               "ToolTip": "D:\\Unity Hub\\Projects\\\u8DEF\u5F84\u89C4\u5212\\Assets\\Scripts\\Map.cs",
               "RelativeToolTip": "Assets\\Scripts\\Map.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAWAAAAAAAAAA==",
+              "ViewState": "AgIAAC8AAAAAAAAAAAAAADoAAAAZAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-29T08:53:37.964Z",
               "EditorCaption": ""
@@ -61,38 +69,64 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Dijkstra.cs",
-              "DocumentMoniker": "D:\\Unity Hub\\Projects\\\u8DEF\u5F84\u89C4\u5212\\Assets\\Scripts\\Algorithm\\Dijkstra.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\Algorithm\\Dijkstra.cs",
-              "ToolTip": "D:\\Unity Hub\\Projects\\\u8DEF\u5F84\u89C4\u5212\\Assets\\Scripts\\Algorithm\\Dijkstra.cs",
-              "RelativeToolTip": "Assets\\Scripts\\Algorithm\\Dijkstra.cs",
-              "ViewState": "AgIAAHgAAAAAAAAAAADwv4MAAAAbAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-05T12:03:42.571Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
               "Title": "AStar.cs",
               "DocumentMoniker": "D:\\Unity Hub\\Projects\\\u8DEF\u5F84\u89C4\u5212\\Assets\\Scripts\\Algorithm\\AStar.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Algorithm\\AStar.cs",
               "ToolTip": "D:\\Unity Hub\\Projects\\\u8DEF\u5F84\u89C4\u5212\\Assets\\Scripts\\Algorithm\\AStar.cs",
               "RelativeToolTip": "Assets\\Scripts\\Algorithm\\AStar.cs",
-              "ViewState": "AgIAAIwAAAAAAAAAAAAgwIgAAAAVAAAAAAAAAA==",
+              "ViewState": "AgIAAAsAAAAAAAAAAADwv0EAAAAaAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-31T13:46:46.994Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Dijkstra.cs",
+              "DocumentMoniker": "D:\\Unity Hub\\Projects\\\u8DEF\u5F84\u89C4\u5212\\Assets\\Scripts\\Algorithm\\Dijkstra.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Algorithm\\Dijkstra.cs",
+              "ToolTip": "D:\\Unity Hub\\Projects\\\u8DEF\u5F84\u89C4\u5212\\Assets\\Scripts\\Algorithm\\Dijkstra.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Algorithm\\Dijkstra.cs",
+              "ViewState": "AgIAACwAAAAAAAAAAAAYwDcAAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-05T12:03:42.571Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "JPS.cs",
+              "DocumentMoniker": "D:\\Unity Hub\\Projects\\\u8DEF\u5F84\u89C4\u5212\\Assets\\Scripts\\Algorithm\\JPS.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Algorithm\\JPS.cs",
+              "ToolTip": "D:\\Unity Hub\\Projects\\\u8DEF\u5F84\u89C4\u5212\\Assets\\Scripts\\Algorithm\\JPS.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Algorithm\\JPS.cs",
+              "ViewState": "AgIAAB4AAAAAAAAAAADwvz0AAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-05T13:16:21.857Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 3,
+              "Title": "JPSForPreGenPath.cs",
+              "DocumentMoniker": "D:\\Unity Hub\\Projects\\\u8DEF\u5F84\u89C4\u5212\\Assets\\Scripts\\Algorithm\\JPSForPreGenPath.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Algorithm\\JPSForPreGenPath.cs",
+              "ToolTip": "D:\\Unity Hub\\Projects\\\u8DEF\u5F84\u89C4\u5212\\Assets\\Scripts\\Algorithm\\JPSForPreGenPath.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Algorithm\\JPSForPreGenPath.cs",
+              "ViewState": "AgIAACEAAAAAAAAAAAAAADIAAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-07T01:11:34.888Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
               "Title": "Node.cs",
               "DocumentMoniker": "D:\\Unity Hub\\Projects\\\u8DEF\u5F84\u89C4\u5212\\Assets\\Scripts\\Node.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Node.cs",
               "ToolTip": "D:\\Unity Hub\\Projects\\\u8DEF\u5F84\u89C4\u5212\\Assets\\Scripts\\Node.cs",
               "RelativeToolTip": "Assets\\Scripts\\Node.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAoAAAAXAAAAAAAAAA==",
+              "ViewState": "AgIAACoAAAAAAAAAAAAswDUAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-29T12:11:44.779Z",
               "EditorCaption": ""

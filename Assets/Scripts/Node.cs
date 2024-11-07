@@ -19,7 +19,7 @@ public class Node : MonoBehaviour
     public TextMeshProUGUI fText;
 
     //Dijkstra
-    public List<Node> children_D = new List<Node>();
+    public bool isChecked = false;
     public int D;
 
     //JPS
@@ -37,6 +37,7 @@ public class Node : MonoBehaviour
 
     private void OnEnable()
     {
+        EventManager.StopAction += ResetNode;
         //AStar
         gText = transform.Find("AStar/GText").GetComponent<TextMeshProUGUI>();
         hText = transform.Find("AStar/HText").GetComponent<TextMeshProUGUI>();
@@ -46,5 +47,20 @@ public class Node : MonoBehaviour
         gjText = transform.Find("JPS/GjText").GetComponent<TextMeshProUGUI>();
         hjText = transform.Find("JPS/HjText").GetComponent<TextMeshProUGUI>();
         fjText = transform.Find("JPS/FjText").GetComponent<TextMeshProUGUI>();
+    }
+    private void OnDisable()
+    {
+        EventManager.StopAction -= ResetNode;
+    }
+    private void ResetNode()
+    {
+        Parent = null;
+        //AStar
+        //Dijkstra
+        isChecked = false;
+        //JPS
+        children_J = new List<Node>();
+        forcedNeighbor = new List<Node>();
+        dir = new Vector2Int();
     }
 }

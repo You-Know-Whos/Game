@@ -268,11 +268,11 @@ GameObject:
   - component: {fileID: 140666309}
   - component: {fileID: 140666308}
   - component: {fileID: 140666307}
+  - component: {fileID: 140666306}
   - component: {fileID: 140666305}
   - component: {fileID: 140666303}
   - component: {fileID: 140666310}
-  - component: {fileID: 140666306}
-  - component: {fileID: 140666311}
+  - component: {fileID: 140666312}
   m_Layer: 5
   m_Name: Map
   m_TagString: Untagged
@@ -306,7 +306,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 140666301}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fafc8efafc319e844a649e2fe7d3806e, type: 3}
   m_Name: 
@@ -420,7 +420,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   start: {fileID: 0}
   end: {fileID: 0}
---- !u!114 &140666311
+--- !u!114 &140666312
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -429,13 +429,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 140666301}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 922bbbbcf4e301a42bfda212c93e148f, type: 3}
+  m_Script: {fileID: 11500000, guid: 69235eb5d030e804fa8fb9239424b60d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  saveButton: {fileID: 0}
-  startButton: {fileID: 0}
-  againButton: {fileID: 0}
-  clearButton: {fileID: 0}
+  start: {fileID: 0}
+  end: {fileID: 0}
 --- !u!1 &146559177
 GameObject:
   m_ObjectHideFlags: 0
@@ -445,8 +443,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 146559180}
-  - component: {fileID: 146559179}
-  - component: {fileID: 146559178}
+  - component: {fileID: 146559181}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -454,30 +451,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &146559178
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 146559177}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 643095e51aa28ad4f9421cf718cde5d8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &146559179
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 146559177}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f5023913858ec8f458e805262a929027, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &146559180
 Transform:
   m_ObjectHideFlags: 0
@@ -493,6 +466,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &146559181
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 146559177}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 922bbbbcf4e301a42bfda212c93e148f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  saveButton: {fileID: 744593914}
+  startButton: {fileID: 976525284}
+  againButton: {fileID: 631706553}
+  clearButton: {fileID: 1729320361}
 --- !u!1 &334005230
 GameObject:
   m_ObjectHideFlags: 0

@@ -10,83 +10,64 @@ public class AStar : MonoBehaviour
 {
     private Map map;
     private List<List<Node>> nodes;
-    private ButtonManager buttonManager;
 
     private HashSet<Node> openSet = new HashSet<Node>();
     private HashSet<Node> closedSet = new HashSet<Node>();
-    public Node start;
-    public Node end;
+    private Node start;
+    private Node end;
+    private float time = 0;
 
 
 
-    //TODO：做UI，重新开始，跳过键，设置文本的显示，
-    //      JPS中，Dijkstra找多个终点的路径（可行性待定），设置箭头图标（增加后，点击跳点显示父节点，防止路径重合）
-    //      动态地图，dijkstra
+    //TODO：设置箭头图标（增加后，点击跳点显示父节点，防止路径重合）
+    //      动态地图
     private void OnEnable()
     {
-        EventManager.goAction += OnGo;
+        EventManager.StartAction += OnGo;
+        EventManager.StopAction += StopGo;
     }
     private void Start()
     {
         map = GetComponent<Map>();
-        nodes = map.nodes;
-        buttonManager = GetComponent<ButtonManager>();
+    }
+    private void FixedUpdate()
+    {
+        time += Time.deltaTime;
     }
     private void OnDisable()
     {
-        EventManager.goAction -= OnGo;
+        EventManager.StartAction -= OnGo;
+        EventManager.StopAction -= StopGo;
     }
     private void OnGo()
     {
-        if (map.status == 0)
-        {
-            int hasStart = 0, hasEnd = 0;
-            for (int i = 1; i <= map.Width; i++)
-            {
-                for (int j = 1; j <= map.Height; j++)
-                {
-                    if (nodes[i][j].transform.parent.GetComponent<Image>().color == Color.green) {
-                        start = nodes[i][j]; hasStart += 1; }
-                    else if (nodes[i][j].transform.parent.GetComponent<Image>().color == Color.blue) {
-                        end = nodes[i][j]; hasEnd += 1; }
-                    else if (nodes[i][j].transform.parent.GetComponent<Image>().color == Color.black)
-                        map.walkable[i, j] = 0;
-                }
-            }
-            if (hasStart == 1 && hasEnd == 1)
-            {
-                buttonManager.OnSaveButtonClick();
-                map.status = 1;
+        nodes = map.nodes;
+        start = map.start;
+        end = map.end;
 
-                start.H = (Mathf.Abs(start.X - end.X) + Mathf.Abs(start.Y - end.Y)) * 10;
-                start.gText.text = start.G.ToString();
-                start.hText.text = start.H.ToString();
-                start.fText.text = start.F.ToString();
-                end.gText.text = end.G.ToString();
-                end.hText.text = end.H.ToString();
-                end.fText.text = end.F.ToString();
-                start.gameObject.SetActive(true);
-                end.gameObject.SetActive(true);
-                start.transform.Find("AStar").gameObject.SetActive(true);
-                end.transform.Find("AStar").gameObject.SetActive(true);
-                
-                StartCoroutine(Go());
-            }
-            else
-            {
-                if (hasEnd > 1)
-                    print("Too many Ends!!!");
-                else if (hasEnd < 1)
-                    print("The end haven't been set yet!!!");
-                if (hasStart > 1)
-                    print("Too many starts!!!");
-                else if (hasEnd < 1)
-                    print("The start haven't been set yet!!!");
-            }
-        }
+        start.H = (Mathf.Abs(start.X - end.X) + Mathf.Abs(start.Y - end.Y)) * 10;
+        start.gText.text = start.G.ToString();
+        start.hText.text = start.H.ToString();
+        start.fText.text = start.F.ToString();
+        end.gText.text = end.G.ToString();
+        end.hText.text = end.H.ToString();
+        end.fText.text = end.F.ToString();
+        start.gameObject.SetActive(true);
+        end.gameObject.SetActive(true);
+        start.transform.Find("AStar").gameObject.SetActive(true);
+        end.transform.Find("AStar").gameObject.SetActive(true);
+
+        StartCoroutine(Go());
+    }
+    private void StopGo()
+    {
+        StopCoroutine(Go());
+        openSet.Clear();
+        closedSet.Clear();
     }
     IEnumerator Go()
     {
+        float time1 = time;
         openSet.Add(start);
         while (openSet.Count > 0)
         {
@@ -127,8 +108,9 @@ public class AStar : MonoBehaviour
                         node.fText.text = node.F.ToString();
                         node.Parent = min;
                     }
-                    yield return new WaitForSeconds(0.02f);
-                    yield return new WaitWhile(() => !Input.GetKey(KeyCode.RightArrow));//Lambda
+                    //yield return new WaitForSeconds(0.02f);
+                    //yield return new WaitWhile(() => !Input.GetKey(KeyCode.RightArrow));//Lambda
+                    yield return null;
                     node.transform.parent.GetComponent<Image>().color = Color.yellow;
                 }
             }
@@ -138,6 +120,7 @@ public class AStar : MonoBehaviour
             print("NoPath!!!");
         else
             print("Over");
+        print(time - time1);
     }
     private List<Node> GetNeighbors(Node node)
     {

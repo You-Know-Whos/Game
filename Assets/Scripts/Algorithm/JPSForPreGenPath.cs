@@ -11,84 +11,50 @@ public class JPSForPreGenPath : MonoBehaviour
     private HashSet<Node> jumpPoints = new HashSet<Node>();
     private HashSet<Node> openSet = new HashSet<Node>();
     private HashSet<Node> closedSet = new HashSet<Node>();
-    public Node start;
-    public Node end;
+    private Node start;
+    private Node end;
+    private float time = 0;
 
 
 
     private void OnEnable()
     {
-        EventManager.goAction += OnGo;
+        EventManager.StartAction += OnGo;
+        EventManager.StopAction += StopGo;
     }
     private void Start()
     {
         map = GetComponent<Map>();
-        nodes = map.nodes;
+    }
+    private void FixedUpdate()
+    {
+        time += Time.deltaTime;
     }
     private void OnDisable()
     {
-        EventManager.goAction -= OnGo;
+        EventManager.StartAction -= OnGo;
+        EventManager.StopAction -= StopGo;
     }
     private void OnGo()
     {
-        if (map.status == 0)
-        {
-            int isStart = 0, isEnd = 0;
-            for (int i = 1; i <= map.Width; i++)
-            {
-                for (int j = 1; j <= map.Height; j++)
-                {
-                    if (nodes[i][j].transform.parent.GetComponent<Image>().color == Color.green)
-                    {
-                        start = nodes[i][j]; isStart += 1;
-                    }
-                    else if (nodes[i][j].transform.parent.GetComponent<Image>().color == Color.blue)
-                    {
-                        end = nodes[i][j]; isEnd += 1;
-                    }
-                    else if (nodes[i][j].transform.parent.GetComponent<Image>().color == Color.black)
-                        map.walkable[i, j] = 0;
-                }
-            }
-            if (isStart == 1 && isEnd == 1)
-            {
-                map.status = 1;
-                start.gameObject.SetActive(true);
-                end.gameObject.SetActive(true);
-                if (map.mapPrefab != null)
-                {
-                    for (int i = 1; i <= map.Width; i++)
-                    {
-                        for (int j = 1; j <= map.Height; j++)
-                        {
-                            if (nodes[i][j].transform.parent.GetComponent<Image>().color == Color.yellow)
-                                map.mapPrefab.row[j - 1].column[i - 1] = BrushManager.NodeType.None;
-                            else if (nodes[i][j].transform.parent.GetComponent<Image>().color == Color.green)
-                                map.mapPrefab.row[j - 1].column[i - 1] = BrushManager.NodeType.Start;
-                            else if (nodes[i][j].transform.parent.GetComponent<Image>().color == Color.blue)
-                                map.mapPrefab.row[j - 1].column[i - 1] = BrushManager.NodeType.End;
-                            else if (nodes[i][j].transform.parent.GetComponent<Image>().color == Color.black)
-                                map.mapPrefab.row[j - 1].column[i - 1] = BrushManager.NodeType.Block;
-                        }
-                    }
-                }
-                StartCoroutine(Go());
-            }
-            else
-            {
-                if (isEnd > 1)
-                    print("Too many Ends!!!");
-                else if (isEnd < 1)
-                    print("The end haven't been set yet!!!");
-                if (isStart > 1)
-                    print("Too many starts!!!");
-                else if (isEnd < 1)
-                    print("The start haven't been set yet!!!");
-            }
-        }
+        nodes = map.nodes;
+        start = map.start;
+        end = map.end;
+
+        start.gameObject.SetActive(true);
+        end.gameObject.SetActive(true);
+        StartCoroutine(Go());
+    }
+    private void StopGo()
+    {
+        StopCoroutine(Go());
+        jumpPoints.Clear();
+        openSet.Clear();
+        closedSet.Clear();
     }
     IEnumerator Go()
     {
+        float time1 = time;
         jumpPoints.Add(start);
         openSet.Add(start);
         while (openSet.Count > 0)
@@ -113,6 +79,7 @@ public class JPSForPreGenPath : MonoBehaviour
             print("NoPath!!!");
         else
             print("Over");
+        print(time - time1);
     }
     private void Jump(Node node, Vector2Int dir)
     {
