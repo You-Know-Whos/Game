@@ -12,7 +12,6 @@ public class Dijkstra : MonoBehaviour
     private List<List<Node>> nodes;
 
     private HashSet<Node> openSet = new HashSet<Node>();
-    private HashSet<Node> closedSet = new HashSet<Node>();
     private Node start;
     private Node end;
     private List<Vector2Int> dirs = new List<Vector2Int>{ Vector2Int.zero.Settt(-1, -1), Vector2Int.down, Vector2Int.zero.Settt(1, -1),//ио
@@ -55,7 +54,6 @@ public class Dijkstra : MonoBehaviour
     {
         StopCoroutine(Go());
         openSet.Clear();
-        closedSet.Clear();
     }
     IEnumerator Go()
     {
@@ -77,11 +75,10 @@ public class Dijkstra : MonoBehaviour
             }
             min.GetComponent<Image>().color = Color.gray;
             openSet.Remove(min);
-            closedSet.Add(min);
             GetNeighbors(min);
 
-            yield return new WaitForSeconds(2f);
-            yield return new WaitWhile(() => !Input.GetKey(KeyCode.RightArrow));
+            //yield return new WaitForSeconds(1f);
+            //yield return new WaitWhile(() => !Input.GetKeyDown(KeyCode.RightArrow));
             yield return null;
         }
         if (!map.isReachable)
@@ -144,6 +141,7 @@ public class Dijkstra : MonoBehaviour
         }
         map.isReachable = true;
     }
+    
     private bool IsInMap(int x, int y)
     {
         return x >= 1 && x <= map.Width && y >= 1 && y <= map.Height;

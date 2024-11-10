@@ -357,6 +357,7 @@
 "Assets/Scripts/Algorithm/Dijkstra.cs"
 "Assets/Scripts/Algorithm/JPS.cs"
 "Assets/Scripts/Algorithm/JPSForPreGenPath.cs"
+"Assets/Scripts/Algorithm/ModifiedDijkstra.cs"
 "Assets/Scripts/Brush/Brush.cs"
 "Assets/Scripts/Brush/BrushManager.cs"
 "Assets/Scripts/EventManager.cs"
