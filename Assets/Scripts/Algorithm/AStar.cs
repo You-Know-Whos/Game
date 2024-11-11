@@ -19,8 +19,7 @@ public class AStar : MonoBehaviour
 
 
 
-    //TODO：设置箭头图标（增加后，点击跳点显示父节点，防止路径重合）
-    //      动态地图
+    //TODO：堆优化各个算法，更新节点属性方法可以优化
     private void OnEnable()
     {
         EventManager.StartAction += OnGo;
@@ -93,7 +92,7 @@ public class AStar : MonoBehaviour
                 {
                     node.gameObject.SetActive(true);
                     node.transform.Find("AStar").gameObject.SetActive(true);
-                    node.transform.parent.GetComponent<Image>().color = Color.red;
+                    //node.transform.parent.GetComponent<Image>().color = Color.red;
                     openSet.Add(node);
 
                     int newPath;
@@ -108,12 +107,12 @@ public class AStar : MonoBehaviour
                         node.fText.text = node.F.ToString();
                         node.Parent = min;
                     }
-                    //yield return new WaitForSeconds(0.02f);
-                    //yield return new WaitWhile(() => !Input.GetKey(KeyCode.RightArrow));//Lambda
                     yield return null;
                     node.transform.parent.GetComponent<Image>().color = Color.yellow;
                 }
             }
+            yield return new WaitForSeconds(0.02f);
+            yield return new WaitWhile(() => !Input.GetKeyDown(KeyCode.RightArrow));//Lambda
             min.transform.parent.GetComponentInParent<Image>().color = Color.yellow;
         }
         if (!map.isReachable)
